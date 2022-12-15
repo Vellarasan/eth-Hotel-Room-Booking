@@ -1,0 +1,12 @@
+#header {
+    margin-bottom: 20px;
+}
+
+#rooms {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.room {
+    margin-bottom: 20px;
+}
