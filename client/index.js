@@ -35,6 +35,13 @@ const bookTheRoom = async (room) => {
     await refreshRooms();
 }
 
+// Add the Room
+const addTheRoom = async (_price) => {
+    alert(_price);
+    //await roomConstract.methods.addRoom(_price).call();
+    await refreshRooms();
+}
+
 // Refresh Rooms method
 const refreshRooms = async () => {
     roomsEl.innerHTML = '';
@@ -43,7 +50,6 @@ const refreshRooms = async () => {
 
     for (let index = 0; index < rooms.length; index++) {
         const room = rooms[index];
-
 
         const roomEl = await createDivFromString(`
             <div class="room card" style="width: 18rem;">
@@ -91,6 +97,8 @@ const main = async () => {
             await web3.eth.personal.ecRecover(message, signature)
                 .then((address) => {
                     if (address.toUpperCase() === loggedInAccountAddress.toUpperCase()) {
+
+                        // Adding Total Income to the UI
                         roomConstract.methods.getTotalIncome().call()
                             .then((totalIncome) => {
                                 createDivFromString(`
@@ -103,6 +111,31 @@ const main = async () => {
                                         document.getElementById("totalIncome").appendChild(result);
                                     });
                             });
+
+                            let roomPrice;
+
+                            // Adding Add Book button to the UI
+                            createDivFromString(`
+                            <div class="input-group mb-3">
+                                <input 
+                                    type="number" 
+                                    id="roomPriceInput"
+                                    class="form-control" 
+                                    placeholder="Room Price in ETH" 
+                                    aria-label="Room Price in ETH" 
+                                    aria-describedby="basic-addon2"
+                                    value="${roomPrice}">
+                                <div class="input-group-append">
+                                    <button id="addroom" class="btn btn-outline-secondary" type="button">Add Room</button>
+                                </div>
+                            </div>
+                            `)
+                            .then((createdBtnHtml) => {
+                                document.getElementById("totalIncome").appendChild(createdBtnHtml);
+                                const addButton = document.getElementById("addroom");
+                                addButton.onclick = addTheRoom.bind(null, roomPrice);
+                            });
+
                     }
                 });
         }

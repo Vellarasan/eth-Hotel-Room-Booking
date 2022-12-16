@@ -65,6 +65,12 @@ contract HotelRoomBooking {
         return totalRevenue;
     }
 
+    // FUNCTION - Add new Room to the hotel
+    function addRoom(uint256 _price) external {
+        require(_price > 0);
+        rooms.push(Room(rooms.length + 1, address(0x0), _price, false));
+    }
+
     // VALIDATION - Validate whether the room is occupied or not
     modifier roomIsNotOccupied(uint256 _roomNumber) {
         require(
