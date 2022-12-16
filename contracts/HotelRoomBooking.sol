@@ -13,7 +13,7 @@ contract HotelRoomBooking {
     uint256 totalRevenue;
     Room[] public rooms;
 
-    function getRooms() external view returns (Room [] memory) {
+    function getRooms() external view returns (Room[] memory) {
         return rooms;
     }
 
