@@ -36,9 +36,14 @@ const bookTheRoom = async (room) => {
 };
 
 // Add the Room
-const addTheRoom = async (_price) => {
-  alert(_price);
-  //await roomConstract.methods.addRoom(_price).call();
+const addTheRoom = async () => {
+  const price = document.getElementById("roomPriceInput").value;
+
+  const weiVaue = Web3.utils.fromWei(String(price), 'ether');
+  alert(weiVaue);
+  await roomConstract.methods.addRoom(price).send({
+    from: loggedInAccountAddress,
+  });
   await refreshRooms();
 };
 
@@ -120,23 +125,23 @@ const main = async () => {
 
           // Adding Add Book button to the UI
           createDivFromString(`
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-3" style="width:400px">
                                 <input 
                                     type="number" 
                                     id="roomPriceInput"
                                     class="form-control" 
-                                    placeholder="Room Price in ETH" 
+                                    placeholder="Room Price in ETH Ξ" 
                                     aria-label="Room Price in ETH" 
                                     aria-describedby="basic-addon2"
-                                    value="${roomPrice}">
+                                    >
                                 <div class="input-group-append">
-                                    <button id="addroom" class="btn btn-outline-secondary" type="button">Add Room</button>
+                                    <button id="addroom" class="btn btn-outline-primary" type="button">Add Room</button>
                                 </div>
                             </div>
                             `).then((createdBtnHtml) => {
             document.getElementById("totalIncome").appendChild(createdBtnHtml);
             const addButton = document.getElementById("addroom");
-            addButton.onclick = addTheRoom.bind(null, roomPrice);
+            addButton.onclick = addTheRoom.bind(null);
           });
         }
       });
